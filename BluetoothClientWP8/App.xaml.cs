@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using BluetoothClientWP8.Resources;
+using Windows.Devices.Geolocation;
 
 namespace BluetoothClientWP8
 {
@@ -17,6 +18,11 @@ namespace BluetoothClientWP8
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
+
+        // Global Geolocator so that it doesn't go out of scope
+        public static Geolocator Geolocator { get; set; }
+        // boolean to track whether we are currently running in the background
+        public static bool RunningInBackground { get; set; }
 
         /// <summary>
         /// Constructor for the Application object.
@@ -67,6 +73,8 @@ namespace BluetoothClientWP8
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            // Pages can check this value and know that they can resume updating the UI
+            RunningInBackground = false;
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -79,6 +87,13 @@ namespace BluetoothClientWP8
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+        }
+
+        private void Application_RunningInBackground(object sender, RunningInBackgroundEventArgs args)
+        {
+            // Pages can check this value and know to suspend all unnecessary processing such as UI updates
+            RunningInBackground = true;
+
         }
 
         // Code to execute if a navigation fails
