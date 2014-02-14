@@ -22,146 +22,60 @@ namespace BluetoothClientWP8
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        //private ConnectionManager connectionManager;
-        //private StateManager stateManager;
+        private ConnectionManager connectionManager;
+        private StateManager stateManager;
         bool tracking = false;
+        string longitude;
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            //connectionManager = new ConnectionManager();
-            //connectionManager.MessageReceived += connectionManager_MessageReceived;
-            //stateManager = new StateManager();
+            connectionManager = new ConnectionManager();
+            connectionManager.MessageReceived += connectionManager_MessageReceived;
+            stateManager = new StateManager();
             BuildApplicationBar();
 
         }
 
-        //async void connectionManager_MessageReceived(string message)
-        //{
-        //    Debug.WriteLine("Message received:" + message);
-        //    string[] messageArray = message.Split(':');
-        //    switch (messageArray[0])
-        //    {
-        //        case "LED_RED":
-        //            stateManager.RedLightOn = messageArray[1] == "ON" ? true : false;
-        //            Dispatcher.BeginInvoke(delegate()
-        //            {
-        //                //RedButton.Background = stateManager.RedLightOn ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
-        //            });
-        //        break;
-        //        case "LED_GREEN":
-        //            stateManager.GreenLightOn = messageArray[1] == "ON" ? true : false;
-        //            Dispatcher.BeginInvoke(delegate()
-        //            {
-        //                //GreenButton.Background = stateManager.GreenLightOn ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Black);
-        //            });
-        //        break;
-        //        case "LED_YELLOW":
-        //            stateManager.YellowLightOn = messageArray[1] == "ON" ? true : false;
-        //            Dispatcher.BeginInvoke(delegate()
-        //            {
-        //                //YellowButton.Background = stateManager.YellowLightOn ? new SolidColorBrush(Colors.Yellow) : new SolidColorBrush(Colors.Black);
-        //            });
-        //        break;
-        //    }
-        //}
-
-        //protected override void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //    onnectionManager.Initialize();
-        //    stateManager.Initialize();
-            
-        //    if (IsolatedStorageSettings.ApplicationSettings.Contains("LocationConsent"))
-        //    {
-        //         User has already opted in or out of Location
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        MessageBoxResult result =
-        //            MessageBox.Show("This app accesses your phone's location. Is that ok?",
-        //            "Location",
-        //            MessageBoxButton.OKCancel);
-
-        //        if (result == MessageBoxResult.OK)
-        //        {
-        //            IsolatedStorageSettings.ApplicationSettings["LocationConsent"] = true;
-        //        }
-        //        else
-        //        {
-        //            IsolatedStorageSettings.ApplicationSettings["LocationConsent"] = false;
-        //        }
-
-        //        IsolatedStorageSettings.ApplicationSettings.Save();
-
-        //        UpdateAppBar();
-                
-        //    }
-            
-        //}
-
-        //protected override void OnNavigatedFrom(NavigationEventArgs e)
-        //{
-        //    connectionManager.Terminate();
-        //}
-
-        //private void ConnectAppToDeviceButton_Click_1(object sender, RoutedEventArgs e)
-        //{
-        //    AppToDevice();
-        //}
-
-        //private async void AppToDevice()
-        //{
-        //    //ConnectAppToDeviceButton.Content = "Connecting...";
-        //    PeerFinder.AlternateIdentities["Bluetooth:Paired"] = "";
-        //    var pairedDevices = await PeerFinder.FindAllPeersAsync();
-
-        //    if (pairedDevices.Count == 0)
-        //    {
-        //        Debug.WriteLine("No paired devices were found.");
-        //    }
-        //    else
-        //    { 
-        //        foreach (var pairedDevice in pairedDevices)
-        //        {
-        //            if (pairedDevice.DisplayName == "linvor")//DeviceName.Text)
-        //            {
-        //                connectionManager.Connect(pairedDevice.HostName);
-        //                //ConnectAppToDeviceButton.Content = "Connected";
-        //                //DeviceName.IsReadOnly = true;
-        //                //ConnectAppToDeviceButton.IsEnabled = false;
-        //                continue;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private async void RedButton_Click_1(object sender, RoutedEventArgs e)
-        //{
-        //    string command = stateManager.RedLightOn ? "TURN_OFF_RED" : "TURN_ON_RED";
-        //    await connectionManager.SendCommand(command);
-        //}
-
-        //private async void GreenButton_Click_1(object sender, RoutedEventArgs e)
-        //{
-        //    string command = stateManager.GreenLightOn ? "TURN_OFF_GREEN" : "TURN_ON_GREEN";
-        //    await connectionManager.SendCommand(command);
-        //}
-
-        //private async void YellowButton_Click_1(object sender, RoutedEventArgs e)
-        //{
-        //    string command = stateManager.YellowLightOn ? "TURN_OFF_YELLOW" : "TURN_ON_YELLOW";
-        //    await connectionManager.SendCommand(command);
-        //}
-
-        ///////////////Navigation////////////////////////////////////////////////////////////
-
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        async void connectionManager_MessageReceived(string message)
         {
+            Debug.WriteLine("Message received:" + message);
+            string[] messageArray = message.Split(':');
+            switch (messageArray[0])
+            {
+                case "LED_RED":
+                    stateManager.RedLightOn = messageArray[1] == "ON" ? true : false;
+                    Dispatcher.BeginInvoke(delegate()
+                    {
+                        //RedButton.Background = stateManager.RedLightOn ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
+                    });
+                    break;
+                case "LED_GREEN":
+                    stateManager.GreenLightOn = messageArray[1] == "ON" ? true : false;
+                    Dispatcher.BeginInvoke(delegate()
+                    {
+                        //GreenButton.Background = stateManager.GreenLightOn ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Black);
+                    });
+                    break;
+                case "LED_YELLOW":
+                    stateManager.YellowLightOn = messageArray[1] == "ON" ? true : false;
+                    Dispatcher.BeginInvoke(delegate()
+                    {
+                        //YellowButton.Background = stateManager.YellowLightOn ? new SolidColorBrush(Colors.Yellow) : new SolidColorBrush(Colors.Black);
+                    });
+                    break;
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            connectionManager.Initialize();
+            stateManager.Initialize();
+            
             if (IsolatedStorageSettings.ApplicationSettings.Contains("LocationConsent"))
             {
-                // User has already opted in or out of Location
+                 //User has already opted in or out of Location
                 return;
             }
             else
@@ -183,8 +97,96 @@ namespace BluetoothClientWP8
                 IsolatedStorageSettings.ApplicationSettings.Save();
 
                 UpdateAppBar();
+                
+            }
+            
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            connectionManager.Terminate();
+        }
+
+        private void ConnectAppToDeviceButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            AppToDevice();
+        }
+
+        private async void AppToDevice()
+        {
+            //ConnectAppToDeviceButton.Content = "Connecting...";
+            PeerFinder.AlternateIdentities["Bluetooth:Paired"] = "";
+            var pairedDevices = await PeerFinder.FindAllPeersAsync();
+
+            if (pairedDevices.Count == 0)
+            {
+                Debug.WriteLine("No paired devices were found.");
+            }
+            else
+            {
+                foreach (var pairedDevice in pairedDevices)
+                {
+                    if (pairedDevice.DisplayName == "linvor")//DeviceName.Text)
+                    {
+                        connectionManager.Connect(pairedDevice.HostName);
+                        //ConnectAppToDeviceButton.Content = "Connected";
+                        //DeviceName.IsReadOnly = true;
+                        //ConnectAppToDeviceButton.IsEnabled = false;
+                        continue;
+                    }
+                }
             }
         }
+
+        private async void RedButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            string command = stateManager.RedLightOn ? "TURN_OFF_RED" : "TURN_ON_RED";
+            await connectionManager.SendCommand(command);
+        }
+
+        private async void GreenButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            string command = stateManager.GreenLightOn ? "TURN_OFF_GREEN" : "TURN_ON_GREEN";
+            await connectionManager.SendCommand(command);
+        }
+
+        private async void YellowButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            string command = stateManager.YellowLightOn ? "TURN_OFF_YELLOW" : "TURN_ON_YELLOW";
+            await connectionManager.SendCommand(command);
+        }
+
+        ///////////////Navigation////////////////////////////////////////////////////////////
+        #region
+        //protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        //protected void LocationNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        //{
+        //    if (IsolatedStorageSettings.ApplicationSettings.Contains("LocationConsent"))
+        //    {
+        //        // User has already opted in or out of Location
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        MessageBoxResult result =
+        //            MessageBox.Show("This app accesses your phone's location. Is that ok?",
+        //            "Location",
+        //            MessageBoxButton.OKCancel);
+
+        //        if (result == MessageBoxResult.OK)
+        //        {
+        //            IsolatedStorageSettings.ApplicationSettings["LocationConsent"] = true;
+        //        }
+        //        else
+        //        {
+        //            IsolatedStorageSettings.ApplicationSettings["LocationConsent"] = false;
+        //        }
+
+        //        IsolatedStorageSettings.ApplicationSettings.Save();
+
+        //        UpdateAppBar();
+        //    }
+        //}
 
 
         // Get the current location of the phone. To reduce power consumption, it is recommended that you
@@ -210,6 +212,7 @@ namespace BluetoothClientWP8
                     timeout: TimeSpan.FromSeconds(10)
                     );
 
+                longitude = geoposition.Coordinate.Longitude.ToString("0.000000000");
                 LatitudeTextBlock.Text = geoposition.Coordinate.Latitude.ToString("0.000000000");
                 LongitudeTextBlock.Text = geoposition.Coordinate.Longitude.ToString("0.000000000");
                 StatusTextBlock.Text = "location obtained";
@@ -388,6 +391,14 @@ namespace BluetoothClientWP8
             {
                 menuItem.Text = "opt out of location";
             }
+        }
+
+        #endregion
+
+        private async void btnSend_CoOrd_Click(object sender, RoutedEventArgs e)
+        {
+            string command = longitude;
+            await connectionManager.SendCommand(command);
         }
     }
 }

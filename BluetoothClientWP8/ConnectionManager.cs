@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
+using System.Windows;
 
 namespace BluetoothConnectionManager
 {
@@ -81,10 +82,18 @@ namespace BluetoothConnectionManager
         {
             if (socket != null)
             {
-                await socket.ConnectAsync(deviceHostName, "1");
-                dataReader = new DataReader(socket.InputStream);
-                dataReadWorker.RunWorkerAsync();
-                dataWriter = new DataWriter(socket.OutputStream);
+                try
+                {
+                    await socket.ConnectAsync(deviceHostName, "1");
+                    dataReader = new DataReader(socket.InputStream);
+                    dataReadWorker.RunWorkerAsync();
+                    dataWriter = new DataWriter(socket.OutputStream);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+                
             }
         }
 

@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Bin\Debug\BluetoothClientWP8_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="14/02/2014 01:18:24">
-  <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\obj\Debug\BluetoothClientWP8.dll" archivePath="BluetoothClientWP8.dll" lastWriteTime="14/02/2014 01:15:00" />
+﻿<xapCache source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Bin\Debug\BluetoothClientWP8_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="14/02/2014 17:33:57">
+  <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\obj\Debug\BluetoothClientWP8.dll" archivePath="BluetoothClientWP8.dll" lastWriteTime="14/02/2014 17:33:55" />
   <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="12/02/2014 20:16:26" />
   <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="12/02/2014 20:16:26" />
   <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="12/02/2014 20:16:26" />
@@ -12,5 +12,5 @@
   <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="13/02/2014 15:41:46" />
   <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="12/02/2014 20:16:26" />
   <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="12/02/2014 20:16:26" />
-  <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="14/02/2014 01:18:24" />
+  <file source="C:\Arduino\AeroDragon\Bluetooth_Phone\BluetoothClientWP8\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="14/02/2014 17:28:14" />
 </xapCache>

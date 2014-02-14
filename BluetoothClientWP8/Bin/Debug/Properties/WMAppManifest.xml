@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{55e3342b-930d-44dd-9e03-ebf96f565c0c}" Title="BluetoothClientWP8" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="BluetoothClientWP8 author" Description="Sample description" Publisher="BluetoothClientWP8" PublisherID="{905ec818-021b-40ef-9e25-40c44e131088}">
+  <App xmlns="" ProductID="{55e3342b-930d-44dd-9e03-ebf96f565c0c}" Title="Track Me" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="BluetoothClientWP8 author" Description="Sample description" Publisher="BluetoothClientWP8" PublisherID="{905ec818-021b-40ef-9e25-40c44e131088}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
