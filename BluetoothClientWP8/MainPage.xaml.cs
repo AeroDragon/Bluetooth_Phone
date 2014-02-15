@@ -17,6 +17,7 @@ using BluetoothConnectionManager;
 using System.Windows.Media;
 using Windows.Devices.Geolocation;
 using System.IO.IsolatedStorage;
+using System.Windows.Threading;
 
 namespace BluetoothClientWP8
 {
@@ -25,7 +26,8 @@ namespace BluetoothClientWP8
         private ConnectionManager connectionManager;
         private StateManager stateManager;
         bool tracking = false;
-        string longitude;
+        DispatcherTimer pulse = new DispatcherTimer();
+        Location location = new Location();
 
         // Constructor
         public MainPage()
@@ -35,7 +37,15 @@ namespace BluetoothClientWP8
             connectionManager.MessageReceived += connectionManager_MessageReceived;
             stateManager = new StateManager();
             BuildApplicationBar();
+            PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+            pulse.Tick += new EventHandler(pulse_Tick);
+            pulse.Interval = new TimeSpan(0,0,1);
 
+        }
+
+        private void pulse_Tick(object sender, EventArgs e)
+        {
+            sendLocation();
         }
 
         async void connectionManager_MessageReceived(string message)
@@ -138,6 +148,7 @@ namespace BluetoothClientWP8
             }
         }
 
+        #region
         private async void RedButton_Click_1(object sender, RoutedEventArgs e)
         {
             string command = stateManager.RedLightOn ? "TURN_OFF_RED" : "TURN_ON_RED";
@@ -155,40 +166,11 @@ namespace BluetoothClientWP8
             string command = stateManager.YellowLightOn ? "TURN_OFF_YELLOW" : "TURN_ON_YELLOW";
             await connectionManager.SendCommand(command);
         }
+        #endregion
 
         ///////////////Navigation////////////////////////////////////////////////////////////
         #region
-        //protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        //protected void LocationNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        //{
-        //    if (IsolatedStorageSettings.ApplicationSettings.Contains("LocationConsent"))
-        //    {
-        //        // User has already opted in or out of Location
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        MessageBoxResult result =
-        //            MessageBox.Show("This app accesses your phone's location. Is that ok?",
-        //            "Location",
-        //            MessageBoxButton.OKCancel);
-
-        //        if (result == MessageBoxResult.OK)
-        //        {
-        //            IsolatedStorageSettings.ApplicationSettings["LocationConsent"] = true;
-        //        }
-        //        else
-        //        {
-        //            IsolatedStorageSettings.ApplicationSettings["LocationConsent"] = false;
-        //        }
-
-        //        IsolatedStorageSettings.ApplicationSettings.Save();
-
-        //        UpdateAppBar();
-        //    }
-        //}
-
-
+        
         // Get the current location of the phone. To reduce power consumption, it is recommended that you
         // use one-shot location unless your app requires location tracking.
         private async void OneShotLocation_Click(object sender, RoutedEventArgs e)
@@ -211,10 +193,11 @@ namespace BluetoothClientWP8
                     maximumAge: TimeSpan.FromMinutes(1),
                     timeout: TimeSpan.FromSeconds(10)
                     );
-
-                longitude = geoposition.Coordinate.Longitude.ToString("0.000000000");
-                LatitudeTextBlock.Text = geoposition.Coordinate.Latitude.ToString("0.000000000");
-                LongitudeTextBlock.Text = geoposition.Coordinate.Longitude.ToString("0.000000000");
+ 
+                location.latitude = geoposition.Coordinate.Latitude.ToString("0.000000000");
+                location.longitude = geoposition.Coordinate.Longitude.ToString("0.000000000");
+                LatitudeTextBlock.Text = location.latitude;
+                LongitudeTextBlock.Text = location.longitude;
                 StatusTextBlock.Text = "location obtained";
             }
             catch (Exception ex)
@@ -254,7 +237,8 @@ namespace BluetoothClientWP8
                 }
 
                 App.Geolocator.DesiredAccuracy = PositionAccuracy.High;
-                App.Geolocator.MovementThreshold = 100; // The units are meters.
+                App.Geolocator.MovementThreshold = 5; // The units are meters.
+                App.Geolocator.ReportInterval = 3000;
 
                 App.Geolocator.StatusChanged += geolocator_StatusChanged;
                 App.Geolocator.PositionChanged += geolocator_PositionChanged;
@@ -282,14 +266,16 @@ namespace BluetoothClientWP8
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    LatitudeTextBlock.Text = args.Position.Coordinate.Latitude.ToString("0.0000000");
-                    LongitudeTextBlock.Text = args.Position.Coordinate.Longitude.ToString("0.0000000");
+                    location.latitude = args.Position.Coordinate.Latitude.ToString("0.000000000");
+                    location.longitude=args.Position.Coordinate.Longitude.ToString("0.000000000");
+                    LatitudeTextBlock.Text = location.latitude;
+                    LongitudeTextBlock.Text = location.longitude;
                 });
             }
             else
             {
                 Microsoft.Phone.Shell.ShellToast toast = new Microsoft.Phone.Shell.ShellToast();
-                toast.Content = args.Position.Coordinate.Latitude.ToString("0.00");
+                toast.Content = args.Position.Coordinate.Latitude.ToString("0.000000000");
                 toast.Title = "Location: ";
                 toast.NavigationUri = new Uri("/MainPage.xaml", UriKind.Relative);
                 toast.Show();
@@ -397,8 +383,12 @@ namespace BluetoothClientWP8
 
         private async void btnSend_CoOrd_Click(object sender, RoutedEventArgs e)
         {
-            string command = longitude;
-            await connectionManager.SendCommand(command);
+            pulse.Start();            
+        }
+
+        private async void sendLocation()
+        {
+            await connectionManager.SendCommand(location.ToString());
         }
     }
 }

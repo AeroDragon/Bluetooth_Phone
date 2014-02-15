@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="ConnectionManager.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
