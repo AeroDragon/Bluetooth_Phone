@@ -39,8 +39,13 @@ namespace BluetoothClientWP8
             BuildApplicationBar();
             PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             pulse.Tick += new EventHandler(pulse_Tick);
-            pulse.Interval = new TimeSpan(0,0,1);
+            pulse.Interval = new TimeSpan(0,0,3);
 
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+                AppToDevice();
         }
 
         private void pulse_Tick(object sender, EventArgs e)
@@ -107,6 +112,7 @@ namespace BluetoothClientWP8
                 IsolatedStorageSettings.ApplicationSettings.Save();
 
                 UpdateAppBar();
+
                 
             }
             
@@ -138,11 +144,11 @@ namespace BluetoothClientWP8
                 {
                     if (pairedDevice.DisplayName == "linvor")//DeviceName.Text)
                     {
-                        connectionManager.Connect(pairedDevice.HostName);
-                        //ConnectAppToDeviceButton.Content = "Connected";
-                        //DeviceName.IsReadOnly = true;
-                        //ConnectAppToDeviceButton.IsEnabled = false;
-                        continue;
+                                connectionManager.Connect(pairedDevice.HostName);
+                                //ConnectAppToDeviceButton.Content = "Connected";
+                                //DeviceName.IsReadOnly = true;
+                                //ConnectAppToDeviceButton.IsEnabled = false;
+                                continue;
                     }
                 }
             }
@@ -390,6 +396,10 @@ namespace BluetoothClientWP8
         {
             await connectionManager.SendCommand(location.ToString());
         }
+
+        
+
+        
     }
 }
 

@@ -24,6 +24,9 @@ namespace BluetoothClientWP8
 
         public override string ToString()
         {
+            //remove the full stops and concatanate the location
+            latitude = latitude.Remove(latitude.IndexOf('.'),1);
+            longitude = longitude.Remove(longitude.IndexOf('.'),1);
             return String.Format("{0}{1}", latitude, longitude);
         }
     }
